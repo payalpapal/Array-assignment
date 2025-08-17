@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sort Names Alphabetically</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f4f8;
+        display: flex;
+        justify-content: center;
+        padding: 20px;
+    }
+    .container {
+        background: #fff;
+        padding: 20px 25px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 400px;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 22px;
+        color: #333;
+    }
+    input[type="text"] {
+        width: 55%;
+        padding: 7px;
+        margin-right: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+    }
+    button {
+        padding: 6px 10px;
+        margin: 3px 2px;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff;
+        color: #fff;
+        cursor: pointer;
+        font-size: 13px;
+    }
+    button:hover { background-color: #0056b3; }
+    .names-lists {
+        margin-top: 15px;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+    }
+    .box {
+        width: 48%;
+        background: #f8f9fa;
+        padding: 10px;
+        border-radius: 5px;
+        min-height: 40px;
+    }
+    ul { padding-left: 18px; margin: 0; }
+    li { padding: 3px 0; font-size: 14px; }
+    .box strong { display: block; margin-bottom: 5px; font-size: 14px; }
+
+    @media (max-width: 450px) {
+        .names-lists { flex-direction: column; }
+        .box { width: 100%; margin-bottom: 10px; }
+        input[type="text"] { width: 100%; margin-bottom: 5px; }
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h1>Sort Names Alphabetically</h1>
+
+    <input type="text" id="nameInput" placeholder="Enter names separated by commas">
+    <button id="addBtn">Add Name(s)</button>
+    <button id="sortBtn">Sort Alphabetically</button>
+    <button id="resetBtn">Reset</button>
+
+    <div class="names-lists">
+        <div class="box">
+            <strong>Unsorted Names:</strong>
+            <ul id="unsortedList"></ul>
+        </div>
+        <div class="box">
+            <strong>Sorted Names:</strong>
+            <ul id="sortedList"></ul>
+        </div>
+    </div>
+</div>
+
+<script>
+let names = [];
+
+const nameInput = document.getElementById("nameInput");
+const addBtn = document.getElementById("addBtn");
+const sortBtn = document.getElementById("sortBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const unsortedList = document.getElementById("unsortedList");
+const sortedList = document.getElementById("sortedList");
+
+
+function renderUnsorted() {
+    unsortedList.innerHTML = "";
+    names.forEach(name => {
+        const li = document.createElement("li");
+        li.textContent = name;
+        unsortedList.appendChild(li);
+    });
+}
+
+
+function renderSorted() {
+    sortedList.innerHTML = "";
+    const sortedNames = [...names].sort((a, b) =>
+        a.trim().toLowerCase().localeCompare(b.trim().toLowerCase())
+    );
+    sortedNames.forEach(name => {
+        const li = document.createElement("li");
+        li.textContent = name;
+        sortedList.appendChild(li);
+    });
+}
+
+
+addBtn.addEventListener("click", () => {
+    const input = nameInput.value.trim();
+    if(input) {
+        const newNames = input.split(",").map(n => n.trim()).filter(n => n !== "");
+        names.push(...newNames);
+        nameInput.value = "";
+        renderUnsorted();
+    } else {
+        alert("Please enter at least one name!");
+    }
+});
+
+
+sortBtn.addEventListener("click", renderSorted);
+
+
+resetBtn.addEventListener("click", () => {
+    names = [];
+    unsortedList.innerHTML = "";
+    sortedList.innerHTML = "";
+});
+</script>
+</body>
+</html>

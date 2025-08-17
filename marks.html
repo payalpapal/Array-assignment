@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Marks Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 400px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 25px;
+        }
+
+        input[type="number"] {
+            width: 60%;
+            padding: 10px;
+            margin-right: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px 2px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #marksList {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            min-height: 50px;
+        }
+
+        #results {
+            margin-top: 20px;
+            padding: 10px;
+            background: #e9f5ff;
+            border-radius: 5px;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Student Marks Calculator</h1>
+
+        <input type="number" id="markInput" placeholder="Enter marks (0-100)" min="0" max="100">
+        <button id="addMarkBtn">Add Marks</button>
+        <button id="calculateBtn">Calculate</button>
+        <button id="resetBtn">Reset</button>
+
+        <div id="marksList"><strong>Marks Added:</strong><ul id="marksUl"></ul></div>
+        <div id="results"></div>
+    </div>
+
+    <script>
+        let marks = [];
+
+        const markInput = document.getElementById("markInput");
+        const addMarkBtn = document.getElementById("addMarkBtn");
+        const calculateBtn = document.getElementById("calculateBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        const marksUl = document.getElementById("marksUl");
+        const results = document.getElementById("results");
+
+        
+        function renderMarks() {
+            marksUl.innerHTML = "";
+            marks.forEach((mark, index) => {
+                const li = document.createElement("li");
+                li.textContent = mark;
+                marksUl.appendChild(li);
+            });
+        }
+
+       
+        addMarkBtn.addEventListener("click", () => {
+            const mark = parseFloat(markInput.value);
+            if(!isNaN(mark) && mark >= 0 && mark <= 100) {
+                marks.push(mark);
+                markInput.value = "";
+                renderMarks();
+            } else {
+                alert("Please enter a valid mark between 0 and 100");
+            }
+        });
+
+        
+        calculateBtn.addEventListener("click", () => {
+            if(marks.length === 0) {
+                alert("No marks added!");
+                return;
+            }
+            const sum = marks.reduce((a,b) => a+b, 0);
+            const avg = (sum / marks.length).toFixed(2);
+            const max = Math.max(...marks);
+            const min = Math.min(...marks);
+
+            results.innerHTML = `
+                <strong>Results:</strong>
+                <p>Average Marks: ${avg}</p>
+                <p>Highest Marks: ${max}</p>
+                <p>Lowest Marks: ${min}</p>
+            `;
+        });
+
+        
+        resetBtn.addEventListener("click", () => {
+            marks = [];
+            markInput.value = "";
+            renderMarks();
+            results.innerHTML = "";
+        });
+    </script>
+</body>
+</html>

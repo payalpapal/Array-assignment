@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Even and Odd Numbers</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #333;
+        }
+
+        input[type="number"] {
+            width: 60%;
+            padding: 10px;
+            margin-right: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 15px;
+            margin: 5px 2px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: #fff;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .numbers {
+            margin-top: 20px;
+        }
+
+        .box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            min-height: 50px;
+            margin-bottom: 15px;
+        }
+
+        ul {
+            padding-left: 20px;
+            margin: 0;
+        }
+
+        .box strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Filter Even and Odd Numbers</h1>
+
+        <input type="number" id="numInput" placeholder="Enter number">
+        <button id="addBtn">Add Number</button>
+        <button id="showBtn">Show All</button>
+        <button id="evenBtn">Show Even</button>
+        <button id="oddBtn">Show Odd</button>
+        <button id="clearBtn">Clear All</button>
+
+        <div class="numbers">
+            <div class="box">
+                <strong>All Numbers:</strong>
+                <ul id="allList"></ul>
+            </div>
+            <div class="box">
+                <strong>Even Numbers:</strong>
+                <ul id="evenList"></ul>
+            </div>
+            <div class="box">
+                <strong>Odd Numbers:</strong>
+                <ul id="oddList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let numbers = [];
+
+        const numInput = document.getElementById("numInput");
+        const addBtn = document.getElementById("addBtn");
+        const showBtn = document.getElementById("showBtn");
+        const evenBtn = document.getElementById("evenBtn");
+        const oddBtn = document.getElementById("oddBtn");
+        const clearBtn = document.getElementById("clearBtn");
+
+        const allList = document.getElementById("allList");
+        const evenList = document.getElementById("evenList");
+        const oddList = document.getElementById("oddList");
+
+        function renderAllNumbers() {
+            allList.innerHTML = "";
+            numbers.forEach(num => {
+                const li = document.createElement("li");
+                li.textContent = num;
+                allList.appendChild(li);
+            });
+        }
+
+       
+        function renderEvenNumbers() {
+            evenList.innerHTML = "";
+            const evens = numbers.filter(n => n % 2 === 0);
+            evens.forEach(n => {
+                const li = document.createElement("li");
+                li.textContent = n;
+                evenList.appendChild(li);
+            });
+        }
+
+       
+        function renderOddNumbers() {
+            oddList.innerHTML = "";
+            const odds = numbers.filter(n => n % 2 !== 0);
+            odds.forEach(n => {
+                const li = document.createElement("li");
+                li.textContent = n;
+                oddList.appendChild(li);
+            });
+        }
+
+        
+        addBtn.addEventListener("click", () => {
+            const num = parseInt(numInput.value);
+            if(!isNaN(num)) {
+                numbers.push(num);
+                numInput.value = "";
+                renderAllNumbers();
+            } else {
+                alert("Please enter a valid number!");
+            }
+        });
+
+       
+        showBtn.addEventListener("click", renderAllNumbers);
+
+      
+        evenBtn.addEventListener("click", renderEvenNumbers);
+
+    
+        oddBtn.addEventListener("click", renderOddNumbers);
+
+   
+        clearBtn.addEventListener("click", () => {
+            numbers = [];
+            allList.innerHTML = "";
+            evenList.innerHTML = "";
+            oddList.innerHTML = "";
+        });
+    </script>
+</body>
+</html>
